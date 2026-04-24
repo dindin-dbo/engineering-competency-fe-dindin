@@ -6,9 +6,18 @@ export interface LoginPayload {
   password: string
 }
 
+export interface RegisterPayload {
+  name: string
+  email: string
+  password: string
+}
+
 export const authApi = {
   login: (payload: LoginPayload) =>
     api.post<AuthResponse>('/auth/login', payload),
+
+  register: (payload: RegisterPayload) =>
+    api.post<AuthResponse>('/auth/register', payload),
 
   me: () =>
     api.get<ApiResponse<User>>('/me'),

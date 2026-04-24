@@ -18,7 +18,7 @@ export const paymentHandlers = [
       id: `pi-${Date.now()}`,
       invoice_id: invoice.id,
       invoice_number: invoice.invoice_number,
-      merchant_name: 'Budi Merchant',
+      merchant_name: 'Dindin Merchant',
       method: body.method,
       status: 'PENDING' as const,
       created_at: new Date().toISOString(),

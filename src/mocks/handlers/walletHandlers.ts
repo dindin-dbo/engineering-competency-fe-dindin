@@ -12,7 +12,7 @@ export const walletHandlers = [
     const newTopup = {
       id: `topup-${Date.now()}`,
       merchant_id: 'user-1',
-      merchant_name: 'Budi Merchant',
+      merchant_name: 'Dindin Merchant',
       amount: body.amount,
       status: 'PENDING' as const,
       created_at: new Date().toISOString(),

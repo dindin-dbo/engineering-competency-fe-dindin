@@ -55,7 +55,7 @@ describe('useLogin', () => {
       data: {
         data: {
           token: 'mock-token',
-          user: { id: '1', name: 'Budi', email: 'merchant@test.com', role: 'MERCHANT' },
+          user: { id: '1', name: 'Dindin', email: 'merchant@test.com', role: 'MERCHANT' },
         },
       },
     } as never)
@@ -144,7 +144,7 @@ describe('useLogin', () => {
       data: {
         data: {
           token: 'mock-token',
-          user: { id: '1', name: 'Budi', email: 'merchant@test.com', role: 'MERCHANT' },
+          user: { id: '1', name: 'Dindin', email: 'merchant@test.com', role: 'MERCHANT' },
         },
       },
     } as never)

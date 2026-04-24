@@ -18,7 +18,7 @@ export const refundHandlers = [
       invoice_id: invoice.id,
       invoice_number: invoice.invoice_number,
       merchant_id: 'user-1',
-      merchant_name: 'Budi Merchant',
+      merchant_name: 'Dindin Merchant',
       amount: invoice.amount,
       reason: body.reason,
       status: 'REQUESTED' as const,

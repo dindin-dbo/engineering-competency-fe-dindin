@@ -5,6 +5,9 @@ import { ROLES } from '@/constants/roles'
 import ProtectedRoute from './ProtectedRoute'
 import PublicOnlyRoute from './PublicOnlyRoute'
 
+// Layout
+import MerchantLayout from '@/components/layout/MerchantLayout'
+
 // Auth
 import LoginPage from '@/pages/auth/LoginPage'
 import RegisterPage from '@/pages/auth/RegisterPage'
@@ -50,13 +53,15 @@ export default function AppRouter() {
 
         {/* Merchant routes */}
         <Route element={<ProtectedRoute allowedRoles={[ROLES.MERCHANT]} />}>
-          <Route path={ROUTES.MERCHANT_DASHBOARD} element={<MerchantDashboardPage />} />
-          <Route path={ROUTES.MERCHANT_INVOICES} element={<InvoiceListPage />} />
-          <Route path={ROUTES.MERCHANT_INVOICE_CREATE} element={<CreateInvoicePage />} />
-          <Route path={ROUTES.MERCHANT_INVOICE_DETAIL} element={<InvoiceDetailPage />} />
-          <Route path={ROUTES.MERCHANT_WALLET} element={<WalletPage />} />
-          <Route path={ROUTES.MERCHANT_TRANSACTIONS} element={<TransactionHistoryPage />} />
-          <Route path={ROUTES.MERCHANT_REFUNDS} element={<RefundPage />} />
+          <Route element={<MerchantLayout />}>
+            <Route path={ROUTES.MERCHANT_DASHBOARD} element={<MerchantDashboardPage />} />
+            <Route path={ROUTES.MERCHANT_INVOICES} element={<InvoiceListPage />} />
+            <Route path={ROUTES.MERCHANT_INVOICE_CREATE} element={<CreateInvoicePage />} />
+            <Route path={ROUTES.MERCHANT_INVOICE_DETAIL} element={<InvoiceDetailPage />} />
+            <Route path={ROUTES.MERCHANT_WALLET} element={<WalletPage />} />
+            <Route path={ROUTES.MERCHANT_TRANSACTIONS} element={<TransactionHistoryPage />} />
+            <Route path={ROUTES.MERCHANT_REFUNDS} element={<RefundPage />} />
+          </Route>
         </Route>
 
         {/* Admin routes */}

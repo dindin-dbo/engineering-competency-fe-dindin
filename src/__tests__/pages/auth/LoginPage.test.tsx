@@ -39,14 +39,7 @@ describe('LoginPage', () => {
 
   it('renders register link', () => {
     renderLoginPage()
-    expect(screen.getByText(/daftar sebagai merchant/i)).toBeInTheDocument()
-  })
-
-  it('renders demo credentials section', () => {
-    renderLoginPage()
-    expect(screen.getByText(/demo credentials/i)).toBeInTheDocument()
-    expect(screen.getByText(/merchant@test.com/i)).toBeInTheDocument()
-    expect(screen.getByText(/admin@test.com/i)).toBeInTheDocument()
+    expect(screen.getByText(/daftar sekarang/i)).toBeInTheDocument()
   })
 
   it('shows validation errors when submitted empty', async () => {
