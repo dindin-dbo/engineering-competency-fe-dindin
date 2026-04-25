@@ -11,7 +11,7 @@ vi.mock('@/api/walletApi', () => ({
 
 import { invoiceApi } from '@/api/invoiceApi'
 import { walletApi } from '@/api/walletApi'
-import { useDashboard } from '@/hooks/merchant/useDashboard'
+import { useDashboard } from '@/hooks/merchant/Dashboard/useDashboard'
 
 const mockInvoiceApi = vi.mocked(invoiceApi)
 const mockWalletApi = vi.mocked(walletApi)
@@ -28,12 +28,13 @@ const mockWallet = { id: 'w1', merchant_id: 'u1', balance: 500000 }
 describe('useDashboard', () => {
   beforeEach(() => vi.clearAllMocks())
 
-  it('should start with isLoading true', () => {
+  it('should start with isLoading true', async () => {
     mockWalletApi.getWallet.mockResolvedValue(mockAxios({ data: mockWallet }))
     mockInvoiceApi.getInvoices.mockResolvedValue(mockAxios({ data: mockInvoices, meta: {} }))
 
     const { result } = renderHook(() => useDashboard())
     expect(result.current.isLoading).toBe(true)
+    await waitFor(() => expect(result.current.isLoading).toBe(false))
   })
 
   it('should load and compute dashboard data correctly', async () => {

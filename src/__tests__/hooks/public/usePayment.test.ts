@@ -33,7 +33,7 @@ const mockIntent = {
   id: 'pi-1',
   invoice_id: 'inv-1',
   invoice_number: 'INV-001',
-  merchant_name: 'Budi',
+  merchant_name: 'Dindin',
   method: 'WALLET' as const,
   status: 'PENDING' as const,
   created_at: '2025-04-01T09:00:00Z',

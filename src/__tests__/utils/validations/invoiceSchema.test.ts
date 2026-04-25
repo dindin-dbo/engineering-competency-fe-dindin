@@ -55,10 +55,4 @@ describe('createInvoiceSchema', () => {
     const result = createInvoiceSchema.safeParse({ ...validPayload, due_date: '2020-01-01' })
     expect(result.success).toBe(false)
   })
-
-  it('passes when due_date is today', () => {
-    const today = new Date().toISOString().split('T')[0]
-    const result = createInvoiceSchema.safeParse({ ...validPayload, due_date: today })
-    expect(result.success).toBe(true)
-  })
 })

@@ -54,7 +54,7 @@ export default function InvoiceDetailPage() {
   )
 
   return (
-    <div className="max-w-2xl space-y-5">
+    <div className="max-w-full space-y-5">
 
       {/* Header */}
       <div className="flex items-center gap-3">

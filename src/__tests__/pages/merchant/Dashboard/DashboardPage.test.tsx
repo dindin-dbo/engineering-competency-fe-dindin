@@ -1,13 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
-import MerchantDashboardPage from '@/pages/merchant/DashboardPage'
+import MerchantDashboardPage from '@/pages/merchant/Dashboard/DashboardPage'
 
-vi.mock('@/hooks/merchant/useDashboard', () => ({
+vi.mock('@/hooks/merchant/Dashboard/useDashboard', () => ({
   useDashboard: vi.fn(),
 }))
 
-import { useDashboard } from '@/hooks/merchant/useDashboard'
+import { useDashboard } from '@/hooks/merchant/Dashboard/useDashboard'
 
 const mockUseDashboard = vi.mocked(useDashboard)
 

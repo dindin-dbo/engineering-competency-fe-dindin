@@ -29,7 +29,7 @@ export default function CreateInvoicePage() {
   const today = new Date().toISOString().split('T')[0]
 
   return (
-    <div className="max-w-2xl">
+    <div className="max-w-full">
 
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
@@ -68,7 +68,7 @@ export default function CreateInvoicePage() {
               <Input
                 id="customer_name"
                 label="Nama Customer"
-                placeholder="Budi Santoso"
+                placeholder="Dindin Mahpudin"
                 error={errors.customer_name?.message}
                 {...register('customer_name')}
               />

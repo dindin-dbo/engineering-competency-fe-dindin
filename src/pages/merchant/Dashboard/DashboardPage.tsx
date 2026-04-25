@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useDashboard } from '@/hooks/merchant/useDashboard'
+import { useDashboard } from '@/hooks/merchant/Dashboard/useDashboard'
 import StatCard from '@/components/ui/StatCard'
 import Badge from '@/components/ui/Badge'
 import LoadingSpinner from '@/components/shared/LoadingSpinner'
