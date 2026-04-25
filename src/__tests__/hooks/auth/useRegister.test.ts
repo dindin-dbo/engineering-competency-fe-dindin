@@ -1,6 +1,6 @@
 import { renderHook, act, waitFor } from '@testing-library/react'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { useRegister } from '@/hooks/useRegister'
+import { useRegister } from '@/hooks/auth/useRegister'
 
 const mockNavigate = vi.fn()
 

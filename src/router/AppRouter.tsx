@@ -14,9 +14,9 @@ import RegisterPage from '@/pages/auth/RegisterPage'
 
 // Merchant
 import MerchantDashboardPage from '@/pages/merchant/DashboardPage'
-import InvoiceListPage from '@/pages/merchant/InvoiceListPage'
-import CreateInvoicePage from '@/pages/merchant/CreateInvoicePage'
-import InvoiceDetailPage from '@/pages/merchant/InvoiceDetailPage'
+import InvoiceListPage from '@/pages/merchant/Invoice/InvoiceListPage'
+import CreateInvoicePage from '@/pages/merchant/Invoice/CreateInvoicePage'
+import InvoiceDetailPage from '@/pages/merchant/Invoice/InvoiceDetailPage'
 import WalletPage from '@/pages/merchant/WalletPage'
 import TransactionHistoryPage from '@/pages/merchant/TransactionHistoryPage'
 import RefundPage from '@/pages/merchant/RefundPage'

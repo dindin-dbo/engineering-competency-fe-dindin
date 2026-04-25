@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema, RegisterFormValues } from '@/utils/validations/authSchema'
-import { useRegister } from '@/hooks/useRegister'
+import { useRegister } from '@/hooks/auth/useRegister'
 import ErrorMessage from '@/components/shared/ErrorMessage'
 import { ROUTES } from '@/constants/routes'
 

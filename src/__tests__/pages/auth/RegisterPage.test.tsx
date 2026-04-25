@@ -4,11 +4,11 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MemoryRouter } from 'react-router-dom'
 import RegisterPage from '@/pages/auth/RegisterPage'
 
-vi.mock('@/hooks/useRegister', () => ({
+vi.mock('@/hooks/auth/useRegister', () => ({
   useRegister: vi.fn(),
 }))
 
-import { useRegister } from '@/hooks/useRegister'
+import { useRegister } from '@/hooks/auth/useRegister'
 
 const mockUseRegister = vi.mocked(useRegister)
 
