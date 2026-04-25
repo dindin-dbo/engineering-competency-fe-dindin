@@ -18,7 +18,7 @@ import InvoiceListPage from '@/pages/merchant/Invoice/InvoiceListPage'
 import CreateInvoicePage from '@/pages/merchant/Invoice/CreateInvoicePage'
 import InvoiceDetailPage from '@/pages/merchant/Invoice/InvoiceDetailPage'
 import WalletPage from '@/pages/merchant/Wallet/WalletPage'
-import TransactionHistoryPage from '@/pages/merchant/TransactionHistoryPage'
+import TransactionHistoryPage from '@/pages/merchant/Transaksi/TransactionHistoryPage'
 import RefundPage from '@/pages/merchant/Refund/RefundPage'
 
 // Admin
