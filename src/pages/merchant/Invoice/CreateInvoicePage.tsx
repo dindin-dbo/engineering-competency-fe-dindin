@@ -76,7 +76,7 @@ export default function CreateInvoicePage() {
                 id="customer_email"
                 type="email"
                 label="Email Customer"
-                placeholder="budi@example.com"
+                placeholder="dindin@example.com"
                 error={errors.customer_email?.message}
                 {...register('customer_email')}
               />

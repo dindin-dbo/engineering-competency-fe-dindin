@@ -22,7 +22,9 @@ export function useWallet() {
         walletApi.getTopupHistory(),
       ])
       setWallet(walletRes.data.data)
-      setTopupHistory(historyRes.data.data as unknown as TopupRequest[])
+      setTopupHistory(
+        [...historyRes.data.data].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+      );
     } catch {
       setError('Gagal memuat data wallet.')
     } finally {

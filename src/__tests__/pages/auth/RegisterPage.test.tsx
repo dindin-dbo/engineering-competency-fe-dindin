@@ -95,7 +95,7 @@ describe('RegisterPage', () => {
     renderRegisterPage()
 
     await user.type(screen.getByLabelText('Nama lengkap'), 'Dindin Mahpudin')
-    await user.type(screen.getByLabelText('Email'), 'budi@test.com')
+    await user.type(screen.getByLabelText('Email'), 'dindin@test.com')
     await user.type(screen.getByLabelText('Password'), 'password123')
     await user.type(screen.getByLabelText('Konfirmasi password'), 'password123')
     await user.click(screen.getByRole('button', { name: /buat akun/i }))
@@ -104,7 +104,7 @@ describe('RegisterPage', () => {
       expect(mockHandleRegister).toHaveBeenCalledWith(
         expect.objectContaining({
           name: 'Dindin Mahpudin',
-          email: 'budi@test.com',
+          email: 'dindin@test.com',
           password: 'password123',
         })
       )

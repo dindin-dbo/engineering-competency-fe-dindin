@@ -6,7 +6,9 @@ import ProtectedRoute from './ProtectedRoute'
 import PublicOnlyRoute from './PublicOnlyRoute'
 
 // Layout
-import MerchantLayout from '@/components/layout/MerchantLayout'
+import MerchantLayout from '@/components/layout/merchant/MerchantLayout'
+import AdminLayout from '@/components/layout/admin/AdminLayout'
+
 
 // Auth
 import LoginPage from '@/pages/auth/LoginPage'
@@ -66,10 +68,12 @@ export default function AppRouter() {
 
         {/* Admin routes */}
         <Route element={<ProtectedRoute allowedRoles={[ROLES.ADMIN]} />}>
-          <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboardPage />} />
-          <Route path={ROUTES.ADMIN_PAYMENT_SIMULATION} element={<PaymentSimulationPage />} />
-          <Route path={ROUTES.ADMIN_REFUND_MANAGEMENT} element={<RefundManagementPage />} />
-          <Route path={ROUTES.ADMIN_TOPUP_APPROVAL} element={<TopupApprovalPage />} />
+          <Route element={<AdminLayout />}>
+            <Route path={ROUTES.ADMIN_DASHBOARD} element={<AdminDashboardPage />} />
+            <Route path={ROUTES.ADMIN_PAYMENT_SIMULATION} element={<PaymentSimulationPage />} />
+            <Route path={ROUTES.ADMIN_REFUND_MANAGEMENT} element={<RefundManagementPage />} />
+            <Route path={ROUTES.ADMIN_TOPUP_APPROVAL} element={<TopupApprovalPage />} />
+          </Route>
         </Route>
 
         {/* 404 fallback */}

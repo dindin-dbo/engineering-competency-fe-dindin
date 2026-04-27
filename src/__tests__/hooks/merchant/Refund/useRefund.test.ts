@@ -20,7 +20,7 @@ const mockRefunds = [
     invoice_id: 'inv-1',
     invoice_number: 'INV-001',
     merchant_id: 'u1',
-    merchant_name: 'Budi',
+    merchant_name: 'Dindin',
     amount: 150000,
     reason: 'Produk tidak sesuai deskripsi',
     status: 'REQUESTED' as const,

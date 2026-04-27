@@ -16,6 +16,14 @@ export let mockTopups: TopupRequest[] = [
     status: 'PENDING',
     created_at: '2025-04-01T10:00:00Z',
   },
+  {
+    id: 'topup-2',
+    merchant_id: 'user-1',
+    merchant_name: 'Dindin Merchant',
+    amount: 150000,
+    status: 'SUCCESS',
+    created_at: '2025-04-10T10:00:00Z',
+  },
 ]
 
 export let mockInvoices: Invoice[] = [

@@ -18,7 +18,7 @@ const defaultHookReturn = {
     {
       id: 'topup-1',
       merchant_id: 'u1',
-      merchant_name: 'Budi',
+      merchant_name: 'Dindin',
       amount: 100000,
       status: 'PENDING' as const,
       created_at: '2025-04-01T00:00:00Z',
