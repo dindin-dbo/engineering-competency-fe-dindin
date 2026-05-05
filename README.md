@@ -151,34 +151,6 @@ npm run test:coverage
 
 ---
 
-## Arsitektur & Keputusan Teknis
-
-### Layer-based folder structure
-Folder diorganisir per jenis (api, hooks, pages, components) bukan per fitur. Alasannya: banyak logic yang dipakai lintas halaman (misal `invoiceApi` dipakai di Dashboard dan Invoice List), sehingga layer-based lebih menghindari duplikasi dibanding feature-based.
-
-Hooks dikelompokkan per domain dalam subfolder (`hooks/merchant/`, `hooks/admin/`) untuk menjaga keterbacaan saat project berkembang.
-
-### Custom hooks untuk semua logic
-Setiap halaman hanya berisi JSX dan memanggil custom hook untuk data fetching, state, dan side effect. Ini memisahkan *"terlihat seperti apa"* (page) dari *"bekerja seperti apa"* (hook), dan membuat logic bisa di-test tanpa render komponen.
-
-### MSW untuk dummy API
-Semua API call diintersep oleh MSW di browser. Handler tersimpan di `src/mocks/handlers/` per domain. Data dummy di `src/mocks/data/` bersifat mutable — aksi seperti update status langsung mengubah data in-memory, sehingga flow lengkap (merchant → admin → merchant) bisa disimulasikan tanpa backend.
-
-### State machine
-Status transaksi mengikuti alur yang ketat sesuai spec:
-- Invoice: `PENDING → PAID / EXPIRED`
-- Payment Intent: `PENDING → SUCCESS / FAILED`
-- Refund: `REQUESTED → APPROVED / REJECTED → SUCCESS / FAILED`
-- Balance Request: `PENDING → SUCCESS / FAILED`
-
-### Confirmation modal untuk aksi admin
-Semua aksi admin (approve/reject/process) menggunakan `ConfirmModal` sebelum eksekusi. Ini mencegah aksi tidak disengaja dan memberikan konteks yang jelas tentang konsekuensi tindakan.
-
-### Icon button dengan tooltip
-Tombol aksi di tabel admin menggunakan icon + tooltip (bukan teks) agar tidak bentrok secara visual dengan badge status di kolom sebelahnya.
-
----
-
 ## State Management
 
 Zustand digunakan untuk state global:
