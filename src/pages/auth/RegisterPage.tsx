@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { registerSchema, RegisterFormValues } from '@/utils/validations/authSchema'
 import { useRegister } from '@/hooks/auth/useRegister'
+import Input from '@/components/ui/Input'
+import Button from '@/components/ui/Button'
 import ErrorMessage from '@/components/shared/ErrorMessage'
 import { ROUTES } from '@/constants/routes'
 
@@ -124,179 +126,96 @@ export default function RegisterPage() {
           )}
 
           {/* Form */}
-          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
-
+          <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-5">
             {/* Name */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="name" className="text-sm font-medium text-gray-700">
-                Nama lengkap
-              </label>
-              <input
-                id="name"
-                type="text"
-                placeholder="Dindin Mahpudin"
-                autoComplete="name"
-                className={`
-                  w-full px-4 py-2.5 rounded-lg border text-sm
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                  transition-colors duration-150
-                  ${errors.name
-                    ? 'border-red-400 bg-red-50 text-red-900 placeholder-red-300'
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400'
-                  }
-                `}
-                {...register('name')}
-              />
-              {errors.name && (
-                <p className="text-xs text-red-500">{errors.name.message}</p>
-              )}
-            </div>
+            <Input
+              id="name"
+              type="text"
+              label="Nama lengkap"
+              placeholder="Dindin Mahpudin"
+              autoComplete="name"
+              error={errors.name?.message}
+              {...register('name')}
+            />
 
             {/* Email */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="email" className="text-sm font-medium text-gray-700">
-                Email
-              </label>
-              <input
-                id="email"
-                type="email"
-                placeholder="merchant@example.com"
-                autoComplete="email"
-                className={`
-                  w-full px-4 py-2.5 rounded-lg border text-sm
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                  transition-colors duration-150
-                  ${errors.email
-                    ? 'border-red-400 bg-red-50 text-red-900 placeholder-red-300'
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400'
-                  }
-                `}
-                {...register('email')}
+            <Input
+              id="email"
+              type="email"
+              label="Email"
+              placeholder="merchant@example.com"
+              autoComplete="email"
+              error={errors.email?.message}
+              {...register('email')}
+            />
+
+            {/* Password with toggle */}
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? 'text' : 'password'}
+                label="Password"
+                placeholder="Minimal 6 karakter"
+                autoComplete="new-password"
+                error={errors.password?.message}
+                className="pr-10"
+                {...register('password')}
               />
-              {errors.email && (
-                <p className="text-xs text-red-500">{errors.email.message}</p>
-              )}
+              <button
+                type="button"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
+                className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 transition-colors"
+                tabIndex={-1}
+              >
+                {showPassword ? (
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268-2.943 9.543 7a10.025 10.025 0 01-4.132 4.411m0 0L21 21" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268-2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                )}
+              </button>
             </div>
 
-            {/* Password */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="password" className="text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <div className="relative">
-                <input
-                  id="password"
-                  type={showPassword ? 'text' : 'password'}
-                  placeholder="Minimal 6 karakter"
-                  autoComplete="new-password"
-                  className={`
-                    w-full px-4 py-2.5 pr-10 rounded-lg border text-sm
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                    transition-colors duration-150
-                    ${errors.password
-                      ? 'border-red-400 bg-red-50 text-red-900 placeholder-red-300'
-                      : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400'
-                    }
-                  `}
-                  {...register('password')}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowPassword((v) => !v)}
-                  aria-label={showPassword ? 'Sembunyikan password' : 'Tampilkan password'}
-                  tabIndex={-1}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  {showPassword ? (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 4.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              {errors.password && (
-                <p className="text-xs text-red-500">{errors.password.message}</p>
-              )}
+            {/* Confirm Password with toggle */}
+            <div className="relative">
+              <Input
+                id="confirmPassword"
+                type={showConfirm ? 'text' : 'password'}
+                label="Konfirmasi password"
+                placeholder="Ulangi password"
+                autoComplete="new-password"
+                error={errors.confirmPassword?.message}
+                className="pr-10"
+                {...register('confirmPassword')}
+              />
+              <button
+                type="button"
+                onClick={() => setShowConfirm((v) => !v)}
+                aria-label={showConfirm ? 'Sembunyikan konfirmasi password' : 'Tampilkan konfirmasi password'}
+                className="absolute right-3 top-9 text-gray-400 hover:text-gray-600 transition-colors"
+                tabIndex={-1}
+              >
+                {showConfirm ? (
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268-2.943 9.543 7a10.025 10.025 0 01-4.132 4.411m0 0L21 21" />
+                  </svg>
+                ) : (
+                  <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268-2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                )}
+              </button>
             </div>
 
-            {/* Confirm Password */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">
-                Konfirmasi password
-              </label>
-              <div className="relative">
-                <input
-                  id="confirmPassword"
-                  type={showConfirm ? 'text' : 'password'}
-                  placeholder="Ulangi password"
-                  autoComplete="new-password"
-                  className={`
-                    w-full px-4 py-2.5 pr-10 rounded-lg border text-sm
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                    transition-colors duration-150
-                    ${errors.confirmPassword
-                      ? 'border-red-400 bg-red-50 text-red-900 placeholder-red-300'
-                      : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400'
-                    }
-                  `}
-                  {...register('confirmPassword')}
-                />
-                <button
-                  type="button"
-                  onClick={() => setShowConfirm((v) => !v)}
-                  aria-label={showConfirm ? 'Sembunyikan konfirmasi password' : 'Tampilkan konfirmasi password'}
-                  tabIndex={-1}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
-                >
-                  {showConfirm ? (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 4.411m0 0L21 21" />
-                    </svg>
-                  ) : (
-                    <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                        d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                    </svg>
-                  )}
-                </button>
-              </div>
-              {errors.confirmPassword && (
-                <p className="text-xs text-red-500">{errors.confirmPassword.message}</p>
-              )}
-            </div>
-
-            {/* Submit */}
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="
-                w-full py-2.5 rounded-lg text-sm font-semibold
-                bg-blue-600 text-white hover:bg-blue-700
-                transition-all duration-150
-                disabled:opacity-50 disabled:cursor-not-allowed
-                flex items-center justify-center gap-2
-                active:scale-[0.98] mt-2
-              "
-            >
-              {isLoading && (
-                <svg className="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-                </svg>
-              )}
+            <Button type="submit" fullWidth isLoading={isLoading}>
               {isLoading ? 'Mendaftar...' : 'Buat akun'}
-            </button>
+            </Button>
 
           </form>
 

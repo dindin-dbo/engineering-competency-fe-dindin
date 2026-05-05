@@ -37,7 +37,7 @@ export let mockInvoices: Invoice[] = [
     description: 'Pembelian produk A',
     due_date: '2025-05-01',
     status: 'PENDING',
-    payment_link_token: 'token-abc-123',
+    payment_link_token: 'token-75e1d772-54bb-4fd3-b69e-beb481924636',
     created_at: '2025-04-01T09:00:00Z',
   },
   {

@@ -5,6 +5,8 @@ import { refundSchema, RefundFormValues } from '@/utils/validations/refundSchema
 import { useRefund } from '@/hooks/merchant/Refund/useRefund'
 import { useInvoices } from '@/hooks/merchant/Invoice/useInvoices'
 import Badge from '@/components/ui/Badge'
+import Select from '@/components/ui/Select'
+import Textarea from '@/components/ui/Textarea'
 import LoadingSpinner from '@/components/shared/LoadingSpinner'
 import ErrorMessage from '@/components/shared/ErrorMessage'
 import EmptyState from '@/components/shared/EmptyState'
@@ -102,65 +104,28 @@ export default function RefundPage() {
           <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
 
             {/* Invoice select */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="invoice_id" className="text-sm font-medium text-gray-700">
-                Pilih Invoice
-              </label>
-              <select
-                id="invoice_id"
-                className={`
-                  w-full px-4 py-2.5 rounded-lg border text-sm bg-white
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                  transition-colors duration-150
-                  ${errors.invoice_id
-                    ? 'border-red-400 text-red-900'
-                    : 'border-gray-300 text-gray-900'
-                  }
-                `}
-                {...register('invoice_id')}
-              >
-                <option value="">-- Pilih invoice yang ingin direfund --</option>
-                {paidInvoices.map((inv) => (
-                  <option key={inv.id} value={inv.id}>
-                    {inv.invoice_number} — {inv.customer_name} —{' '}
-                    {formatCurrency(inv.amount)}
-                  </option>
-                ))}
-              </select>
-              {errors.invoice_id && (
-                <p className="text-xs text-red-500">{errors.invoice_id.message}</p>
-              )}
-              {paidInvoices.length === 0 && (
-                <p className="text-xs text-gray-400">
-                  Tidak ada invoice dengan status PAID
-                </p>
-              )}
-            </div>
+            <Select
+              id="invoice_id"
+              label="Pilih Invoice"
+              placeholder="-- Pilih invoice yang ingin direfund --"
+              options={paidInvoices.map((inv) => ({
+                value: inv.id,
+                label: `${inv.invoice_number} — ${inv.customer_name} — ${formatCurrency(inv.amount)}`,
+              }))}
+              hint={paidInvoices.length === 0 ? 'Tidak ada invoice dengan status PAID' : undefined}
+              error={errors.invoice_id?.message}
+              {...register('invoice_id')}
+            />
 
             {/* Reason */}
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="reason" className="text-sm font-medium text-gray-700">
-                Alasan Refund
-              </label>
-              <textarea
-                id="reason"
-                rows={3}
-                placeholder="Jelaskan alasan pengajuan refund..."
-                className={`
-                  w-full px-4 py-2.5 rounded-lg border text-sm resize-none
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                  transition-colors duration-150
-                  ${errors.reason
-                    ? 'border-red-400 bg-red-50 text-red-900 placeholder-red-300'
-                    : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400'
-                  }
-                `}
-                {...register('reason')}
-              />
-              {errors.reason && (
-                <p className="text-xs text-red-500">{errors.reason.message}</p>
-              )}
-            </div>
+            <Textarea
+              id="reason"
+              label="Alasan Refund"
+              rows={3}
+              placeholder="Jelaskan alasan pengajuan refund..."
+              error={errors.reason?.message}
+              {...register('reason')}
+            />
 
             <div className="flex gap-3 justify-end">
               <button

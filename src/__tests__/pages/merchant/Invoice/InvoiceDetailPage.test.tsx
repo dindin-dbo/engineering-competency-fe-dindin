@@ -1,4 +1,5 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, waitFor } from '@testing-library/react'
+import userEvent from '@testing-library/user-event'
 import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
 import InvoiceDetailPage from '@/pages/merchant/Invoice/InvoiceDetailPage'
@@ -121,6 +122,33 @@ describe('InvoiceDetailPage', () => {
     })
     renderPage()
     expect(screen.getByText('Invoice Kedaluwarsa')).toBeInTheDocument()
+  })
+
+  it('copies payment link when salin button clicked', async () => {
+    const user = userEvent.setup()
+    const writeText = vi.fn().mockResolvedValue(undefined)
+
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      writable: true,
+      configurable: true,
+    })
+
+    mockUseInvoiceDetail.mockReturnValue({
+      invoice: baseInvoice, 
+      isLoading: false, 
+      error: null,
+    })
+    
+    renderPage()
+
+    const copyButtons = screen.getAllByRole('button', { name: /salin payment link/i })
+    await user.click(copyButtons[0])
+
+    await waitFor(() => {
+      expect(writeText).toHaveBeenCalled()
+      expect(screen.getAllByText('Tersalin!')[0]).toBeInTheDocument()
+    })
   })
 
   it('renders back link', () => {

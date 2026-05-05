@@ -1,4 +1,4 @@
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { topupSchema, TopupFormValues } from '@/utils/validations/walletSchema'
 import { useWallet } from '@/hooks/merchant/Wallet/useWallet'
@@ -9,6 +9,7 @@ import EmptyState from '@/components/shared/EmptyState'
 import { formatCurrency } from '@/utils/formatCurrency'
 import { formatDate } from '@/utils/formatDate'
 import { getStatusVariant, getStatusLabel } from '@/utils/getStatusBadge'
+import CurrencyInput from '@/components/ui/CurrencyInput'
 
 export default function WalletPage() {
   const {
@@ -23,7 +24,7 @@ export default function WalletPage() {
   } = useWallet()
 
   const {
-    register,
+    control,
     handleSubmit,
     reset,
     formState: { errors },
@@ -87,33 +88,21 @@ export default function WalletPage() {
 
         <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
           <div className="flex flex-col gap-1.5">
-            <label htmlFor="amount" className="text-sm font-medium text-gray-700">
-              Jumlah Top-up (IDR)
-            </label>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 font-medium">
-                Rp
-              </span>
-              <input
-                id="amount"
-                type="number"
-                min={10000}
-                placeholder="100000"
-                className={`
-                  w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm
-                  focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                  transition-colors duration-150
-                  ${errors.amount
-                    ? 'border-red-400 bg-red-50 text-red-900'
-                    : 'border-gray-300 bg-white text-gray-900'
-                  }
-                `}
-                {...register('amount', { valueAsNumber: true })}
-              />
-            </div>
-            {errors.amount && (
-              <p className="text-xs text-red-500">{errors.amount.message}</p>
-            )}
+            <Controller
+              name="amount"
+              control={control}
+              render={({ field }) => (
+                <CurrencyInput
+                  id="amount"
+                  label="Jumlah Top-up (IDR)"
+                  value={field.value}
+                  onChange={field.onChange}
+                  onBlur={field.onBlur}
+                  error={errors.amount?.message}
+                  min={10000}
+                />
+              )}
+            />
             <p className="text-xs text-gray-400">
               Min: Rp 10.000 — Maks: Rp 10.000.000
             </p>

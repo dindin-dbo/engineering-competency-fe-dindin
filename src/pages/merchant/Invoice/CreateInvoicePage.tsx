@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom'
-import { useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { createInvoiceSchema, CreateInvoiceFormValues } from '@/utils/validations/invoiceSchema'
 import { useCreateInvoice } from '@/hooks/merchant/Invoice/useCreateInvoice'
@@ -7,6 +7,8 @@ import Input from '@/components/ui/Input'
 import Button from '@/components/ui/Button'
 import ErrorMessage from '@/components/shared/ErrorMessage'
 import { ROUTES } from '@/constants/routes'
+import CurrencyInput from '@/components/ui/CurrencyInput'
+import Textarea from '@/components/ui/Textarea'
 
 export default function CreateInvoicePage() {
   const { handleCreate, isLoading, errorMessage } = useCreateInvoice()
@@ -14,6 +16,7 @@ export default function CreateInvoicePage() {
   const {
     register,
     handleSubmit,
+    control,
     formState: { errors },
   } = useForm<CreateInvoiceFormValues>({
     resolver: zodResolver(createInvoiceSchema),
@@ -94,33 +97,21 @@ export default function CreateInvoicePage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Amount */}
                 <div className="flex flex-col gap-1">
-                  <label htmlFor="amount" className="text-sm font-medium text-gray-700">
-                    Jumlah (IDR)
-                  </label>
-                  <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400 font-medium">
-                      Rp
-                    </span>
-                    <input
-                      id="amount"
-                      type="number"
-                      min={1}
-                      placeholder="0"
-                      className={`
-                        w-full pl-10 pr-4 py-2.5 rounded-lg border text-sm
-                        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                        transition-colors duration-150
-                        ${errors.amount
-                          ? 'border-red-400 bg-red-50 text-red-900 placeholder-red-300'
-                          : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400'
-                        }
-                      `}
-                      {...register('amount', { valueAsNumber: true })}
-                    />
-                  </div>
-                  {errors.amount && (
-                    <p className="text-xs text-red-500">{errors.amount.message}</p>
-                  )}
+                  <Controller
+                    name="amount"
+                    control={control}
+                    render={({ field }) => (
+                      <CurrencyInput
+                        id="amount"
+                        label="Jumlah (IDR)"
+                        value={field.value}
+                        onChange={field.onChange}
+                        onBlur={field.onBlur}
+                        error={errors.amount?.message}
+                        min={1}
+                      />
+                    )}
+                  />
                 </div>
 
                 {/* Due date */}
@@ -136,27 +127,14 @@ export default function CreateInvoicePage() {
 
               {/* Description */}
               <div className="flex flex-col gap-1">
-                <label htmlFor="description" className="text-sm font-medium text-gray-700">
-                  Deskripsi
-                </label>
-                <textarea
+                <Textarea
                   id="description"
+                  label="Deskripsi"
                   rows={3}
                   placeholder="Deskripsi invoice atau produk/jasa yang dibeli..."
-                  className={`
-                    w-full px-4 py-2.5 rounded-lg border text-sm resize-none
-                    focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                    transition-colors duration-150
-                    ${errors.description
-                      ? 'border-red-400 bg-red-50 text-red-900 placeholder-red-300'
-                      : 'border-gray-300 bg-white text-gray-900 placeholder-gray-400'
-                    }
-                  `}
+                  error={errors.description?.message}
                   {...register('description')}
                 />
-                {errors.description && (
-                  <p className="text-xs text-red-500">{errors.description.message}</p>
-                )}
               </div>
             </div>
           </div>

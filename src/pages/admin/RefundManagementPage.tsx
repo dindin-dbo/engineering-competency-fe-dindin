@@ -4,6 +4,7 @@ import { Refund } from '@/types'
 import Badge from '@/components/ui/Badge'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 import IconButton from '@/components/ui/IconButton'
+import Table from '@/components/ui/Table'
 import LoadingSpinner from '@/components/shared/LoadingSpinner'
 import ErrorMessage from '@/components/shared/ErrorMessage'
 import EmptyState from '@/components/shared/EmptyState'
@@ -185,64 +186,71 @@ export default function RefundManagementPage() {
           />
         ) : (
           <>
-            {/* Desktop table */}
-            <div className="hidden sm:block overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
-                    {['No. Invoice', 'Merchant', 'Jumlah', 'Alasan', 'Tanggal', 'Status'].map((h) => (
-                      <th key={h} className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                        {h}
-                      </th>
-                    ))}
-                    <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                      Aksi
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {refunds.map((refund) => (
-                    <tr key={refund.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-5 py-3.5">
-                        <span className="font-mono text-xs text-blue-600">
-                          {refund.invoice_number}
-                        </span>
-                      </td>
-                      <td className="px-5 py-3.5 font-medium text-gray-700">
-                        {refund.merchant_name}
-                      </td>
-                      <td className="px-5 py-3.5 font-medium text-gray-800 whitespace-nowrap">
-                        {formatCurrency(refund.amount)}
-                      </td>
-                      <td className="px-5 py-3.5 text-gray-500 max-w-xs">
-                        <p className="truncate text-xs">{refund.reason}</p>
-                      </td>
-                      <td className="px-5 py-3.5 text-gray-500 text-xs whitespace-nowrap">
-                        {formatDate(refund.created_at)}
-                      </td>
-                      <td className="px-5 py-3.5">
-                        <Badge
-                          label={getStatusLabel(refund.status)}
-                          variant={getStatusVariant(refund.status)}
-                        />
-                      </td>
-                      <td className="px-5 py-3.5 flex justify-center">
-                        <ActionButtons
-                          refund={refund}
-                          onDecision={(r, s) => setPendingAction({ refund: r, type: 'decision', status: s })}
-                          onProcess={(r, s) => setPendingAction({ refund: r, type: 'process', status: s })}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Mobile */}
-            <div className="sm:hidden divide-y divide-gray-100">
-              {refunds.map((refund) => (
-                <div key={refund.id} className="px-4 py-4 space-y-3">
+            <Table
+              data={refunds}
+              keyExtractor={(refund) => refund.id}
+              columns={[
+                {
+                  header: 'No. Invoice',
+                  render: (refund) => (
+                    <span className="font-mono text-xs text-blue-600">
+                      {refund.invoice_number}
+                    </span>
+                  ),
+                },
+                {
+                  header: 'Merchant',
+                  render: (refund) => (
+                    <span className="font-medium text-gray-700">{refund.merchant_name}</span>
+                  ),
+                },
+                {
+                  header: 'Jumlah',
+                  render: (refund) => (
+                    <span className="font-medium text-gray-800 whitespace-nowrap">
+                      {formatCurrency(refund.amount)}
+                    </span>
+                  ),
+                },
+                {
+                  header: 'Alasan',
+                  render: (refund) => (
+                    <p className="truncate text-xs text-gray-500 max-w-xs">{refund.reason}</p>
+                  ),
+                },
+                {
+                  header: 'Tanggal',
+                  render: (refund) => (
+                    <span className="text-gray-500 text-xs whitespace-nowrap">
+                      {formatDate(refund.created_at)}
+                    </span>
+                  ),
+                },
+                {
+                  header: 'Status',
+                  render: (refund) => (
+                    <Badge
+                      label={getStatusLabel(refund.status)}
+                      variant={getStatusVariant(refund.status)}
+                    />
+                  ),
+                },
+                {
+                  header: 'Aksi',
+                  align: 'center',
+                  render: (refund) => (
+                    <div className="flex justify-center">
+                      <ActionButtons
+                        refund={refund}
+                        onDecision={(r, s) => setPendingAction({ refund: r, type: 'decision', status: s })}
+                        onProcess={(r, s) => setPendingAction({ refund: r, type: 'process', status: s })}
+                      />
+                    </div>
+                  ),
+                },
+              ]}
+              mobileCard={(refund) => (
+                <div className="space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
                       <p className="font-mono text-xs text-blue-600">{refund.invoice_number}</p>
@@ -262,8 +270,8 @@ export default function RefundManagementPage() {
                     onProcess={(r, s) => setPendingAction({ refund: r, type: 'process', status: s })}
                   />
                 </div>
-              ))}
-            </div>
+              )}
+            />
           </>
         )}
       </div>

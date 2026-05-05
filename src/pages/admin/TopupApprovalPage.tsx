@@ -4,6 +4,7 @@ import { TopupRequest } from '@/types'
 import Badge from '@/components/ui/Badge'
 import ConfirmModal from '@/components/ui/ConfirmModal'
 import IconButton from '@/components/ui/IconButton'
+import Table from '@/components/ui/Table'
 import LoadingSpinner from '@/components/shared/LoadingSpinner'
 import ErrorMessage from '@/components/shared/ErrorMessage'
 import EmptyState from '@/components/shared/EmptyState'
@@ -63,70 +64,69 @@ export default function TopupApprovalPage() {
         ) : (
           <>
             {/* Desktop table */}
-            <div className="hidden sm:block overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="bg-gray-50 border-b border-gray-100">
-                    {['Merchant', 'Jumlah', 'Tanggal', 'Status'].map((h) => (
-                      <th key={h} className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                        {h}
-                      </th>
-                    ))}
-                    <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">
-                      Aksi
-                    </th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {requests.map((req) => (
-                    <tr key={req.id} className="hover:bg-gray-50 transition-colors">
-                      <td className="px-5 py-3.5 font-medium text-gray-800">
-                        {req.merchant_name}
-                      </td>
-                      <td className="px-5 py-3.5 font-semibold text-gray-800 whitespace-nowrap">
-                        {formatCurrency(req.amount)}
-                      </td>
-                      <td className="px-5 py-3.5 text-gray-500 text-xs whitespace-nowrap">
-                        {formatDate(req.created_at)}
-                      </td>
-                      <td className="px-5 py-3.5">
-                        <Badge
-                          label={getStatusLabel(req.status)}
-                          variant={getStatusVariant(req.status)}
+            <Table
+              data={requests}
+              keyExtractor={(req) => req.id}
+              columns={[
+                {
+                  header: 'Merchant',
+                  render: (req) => (
+                    <span className="font-medium text-gray-800">{req.merchant_name}</span>
+                  ),
+                },
+                {
+                  header: 'Jumlah',
+                  render: (req) => (
+                    <span className="font-semibold text-gray-800 whitespace-nowrap">
+                      {formatCurrency(req.amount)}
+                    </span>
+                  ),
+                },
+                {
+                  header: 'Tanggal',
+                  render: (req) => (
+                    <span className="text-gray-500 text-xs whitespace-nowrap">
+                      {formatDate(req.created_at)}
+                    </span>
+                  ),
+                },
+                {
+                  header: 'Status',
+                  render: (req) => (
+                    <Badge
+                      label={getStatusLabel(req.status)}
+                      variant={getStatusVariant(req.status)}
+                    />
+                  ),
+                },
+                {
+                  header: 'Aksi',
+                  align: 'center',
+                  render: (req) =>
+                    req.status === 'PENDING' ? (
+                      <div className="flex items-center justify-center gap-1.5">
+                        <IconButton
+                          icon={CheckIcon}
+                          tooltip="Approve Top-up"
+                          variant="success"
+                          onClick={() => setPendingAction({ request: req, status: 'SUCCESS' })}
+                          aria-label={`Approve topup ${req.merchant_name}`}
                         />
-                      </td>
-                      <td className="px-5 py-3.5 flex justify-center">
-                        {req.status === 'PENDING' ? (
-                          <div className="flex items-center gap-1.5">
-                            <IconButton
-                              icon={CheckIcon}
-                              tooltip="Approve Top-up"
-                              variant="success"
-                              onClick={() => setPendingAction({ request: req, status: 'SUCCESS' })}
-                              aria-label={`Approve topup ${req.merchant_name}`}
-                            />
-                            <IconButton
-                              icon={XIcon}
-                              tooltip="Reject Top-up"
-                              variant="danger"
-                              onClick={() => setPendingAction({ request: req, status: 'FAILED' })}
-                              aria-label={`Reject topup ${req.merchant_name}`}
-                            />
-                          </div>
-                        ) : (
-                          <span className="text-xs text-gray-400">—</span>
-                        )}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-
-            {/* Mobile */}
-            <div className="sm:hidden divide-y divide-gray-100">
-              {requests.map((req) => (
-                <div key={req.id} className="px-4 py-4 space-y-3">
+                        <IconButton
+                          icon={XIcon}
+                          tooltip="Reject Top-up"
+                          variant="danger"
+                          onClick={() => setPendingAction({ request: req, status: 'FAILED' })}
+                          aria-label={`Reject topup ${req.merchant_name}`}
+                        />
+                      </div>
+                    ) : (
+                      <span className="text-xs text-gray-400">—</span>
+                    ),
+                },
+              ]}
+              mobileCard={(req) => (
+                <div className="space-y-3">
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <p className="text-sm font-medium text-gray-800">{req.merchant_name}</p>
@@ -139,7 +139,7 @@ export default function TopupApprovalPage() {
                     />
                   </div>
                   {req.status === 'PENDING' && (
-                    <div className="flex items-center gap-2 pt-1">
+                    <div className="flex items-center gap-2">
                       <IconButton
                         icon={CheckIcon}
                         tooltip="Approve Top-up"
@@ -159,8 +159,8 @@ export default function TopupApprovalPage() {
                     </div>
                   )}
                 </div>
-              ))}
-            </div>
+              )}
+            />
           </>
         )}
       </div>
